@@ -1,4 +1,5 @@
 const messagesContainer = document.querySelector('.messages-container')
+const submitButton = document.querySelector('.submit')
 const getMessagesURL = '/www/getMessages.php'
 let messages = []
 
@@ -33,17 +34,12 @@ function checkResponse(response) {
     }
 }
 
-// Every 3 seconds request sends on php file to get new messages. If not have new messages, after request nothing happens
-setInterval(() => {
+function sendRequest() {
     fetch(getMessagesURL)
         .then(resp => resp.json())
         .then(resp => checkResponse(resp))
         .catch(err => console.log(err))
-}, 3000)
+}
+sendRequest()
 
-
-// this code will perform once when page loads
-fetch(getMessagesURL)
-    .then(resp => resp.json())
-    .then(resp => checkResponse(resp))
-    .catch(err => console.log(err))
+submitButton.addEventListener('click', sendRequest)
